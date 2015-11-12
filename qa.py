@@ -3,7 +3,6 @@
 import argparse
 import glob, os, sys, subprocess
 import pickle,re
-import bs4
 import nltk
 
 sys.path.append("modules")
