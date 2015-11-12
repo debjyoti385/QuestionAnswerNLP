@@ -1,0 +1,210 @@
+QuestionID: 1999-W03-5-2
+Question: What team did Babe play for?
+Answer: Edmonton Grads
+Difficulty: Moderate
+
+QuestionID: 1999-W03-5-3
+Question: What position did Babe play?
+Answer: forward
+Difficulty: Moderate
+
+QuestionID: 1999-W03-5-4
+Question: How tall was Babe?
+Answer: 5 feet, 2 inches 
+Difficulty: Easy
+
+QuestionID: 1999-W03-5-5
+Question: How much was Babe paid to play basketball?
+Answer: nothing | never made a cent 
+Difficulty: Moderate
+
+QuestionID: 1999-W03-5-6
+Question: How many games did the Edmonton Grads win?
+Answer: 502
+Difficulty: Easy
+
+QuestionID: 1999-W03-5-7
+Question: When did Babe play for "the finest basketball team that ever stepped out on a floor"?
+Answer: from 1929 to 1937
+Difficulty: Easy
+
+QuestionID: 1999-W03-5-8
+Question: Why did Babe stop playing basketball?
+Answer: she got married
+Difficulty: Moderate
+
+QuestionID: 1999-W03-5-9
+Question: Who was Babe's husband?
+Answer: Ian MacLean
+Difficulty: Moderate
+
+QuestionID: 1999-W03-5-10
+Question: Where did Babe's daughter find scrapbooks?
+Answer: in the family's basement
+Difficulty: Easy
+
+QuestionID: 1999-W04-5-2
+Question: How much does Alexi Yashin earn as a hockey player?
+Answer: more than three million dollars a season
+Difficulty: Easy
+
+QuestionID: 1999-W04-5-3
+Question: Who does Alexi Yashin play for?
+Answer: Ottawa Senators
+Difficulty: Easy
+
+QuestionID: 1999-W04-5-4
+Question: How much money did Alexi Yashin actually donate to the National Arts Centre?
+Answer: $200,000
+Difficulty: Moderate
+
+QuestionID: 1999-W04-5-7
+Question: Why do people go to the National Arts Centre?
+Answer: to see plays and dance and to hear live music
+Difficulty: Easy
+
+QuestionID: 1999-W04-5-8
+Question: How would Alexi's parents have benefited from his donation to the National Arts Centre?
+Answer: they would earn $85,000 a year  | the National Arts Centre would have hired them at $85,000 a year
+Difficulty: Moderate
+
+QuestionID: 1999-W04-5-9
+Question: Where did reporters question Alexi Yashin?
+Answer: in the locker room | Boston
+Difficulty: Easy
+
+QuestionID: 1999-W06-2-1
+Question: Who is Wiarton Willie?
+Answer: the famous Canadian groundhog who predicted the arrival of spring
+Difficulty: Easy
+
+QuestionID: 1999-W06-2-2
+Question: What happened to him two days before Groundhog day?
+Answer: he died | he died in his sleep | he died in his sleep of natural causes
+Difficulty: Moderate
+
+QuestionID: 1999-W06-2-3
+Question: Who took care of Willie?
+Answer: Sam Brouwer
+Difficulty: Moderate
+
+QuestionID: 1999-W06-2-4
+Question: How old was Willie when he died?
+Answer: 22
+Difficulty: Easy
+
+QuestionID: 1999-W06-2-5
+Question: When will he be buried?
+Answer: the spring
+Difficulty: Easy
+
+QuestionID: 1999-W06-2-6
+Question: Where did Willie live?
+Answer: a hutch | a hutch in the front yard of a motel south of Wiarton
+Difficulty: Moderate
+
+QuestionID: 1999-W06-2-8
+Question: Who claims to have received a message from Willie's spirit?
+Answer: Al Given | the mayor of South Bruce Peninsula | Al Given, the mayor of South Bruce Peninsula
+Difficulty: Moderate
+
+QuestionID: 2000-W03-4-1
+Question: Who is Canada's Minister of Health?
+Answer: Allan Rock
+Difficulty: Moderate
+
+QuestionID: 2000-W03-4-2
+Question: Where does the government want to put pictures of diseased lungs?
+Answer: on cigarette packages | half of each side of a cigarette package
+Difficulty: Easy
+
+QuestionID: 2000-W03-4-4
+Question: When does Allen Rock want the new cigarette packages in Canadian stores?
+Answer: by the end of the year | by the end of 2000
+Difficulty: Easy
+
+QuestionID: 2000-W03-4-5
+Question: Who is Rob Parker a spokesman for?
+Answer: The Canadian Tobacco Manufacturers Association
+Difficulty: Moderate
+
+QuestionID: 2000-W03-4-6
+Question: How much would it cost to change the cigarette packaging, according to The Canadian Tobacco Manufacturers Association?
+Answer: millions of dollars
+Difficulty: Easy
+
+QuestionID: 2000-W03-4-7
+Question: What do anti-smoking organizations think about the cigarette packaging plan?
+Answer: They have applauded the strategy | The Non-Smokers Rights Association says the labels will give people a graphic reminder of the harmful effects of smoking a cigarette.
+Difficulty: Easy
+
+QuestionID: 2000-W03-5-1
+Question: What do Jerry's glasses have on them?
+Answer: a tiny camera and an ultrasonic rangefinder
+Difficulty: Easy
+
+QuestionID: 2000-W03-5-2
+Question: When did Jerry get electrodes implanted in his brain?
+Answer: 1979
+Difficulty: Moderate
+
+QuestionID: 2000-W03-5-3
+Question: How old is Jerry?
+Answer: 62
+Difficulty: Easy
+
+QuestionID: 2000-W03-5-4
+Question: Who helped Jerry see?
+Answer: John Girvin | a Canadian brain surgeon | a neurosurgery (brain surgery) professor | a neurosurgery (brain surgery) professor in London, Ontario | a doctor | a computer
+Difficulty: Moderate
+
+QuestionID: 2000-W03-5-5
+Question: Where does John Girvin work as a professor?
+Answer: London, Ontario | London | Ontario
+Difficulty: Easy
+
+QuestionID: 2000-W06-4-1
+Question: Why could students at Sisler High School be sent home or suspended for kissing?
+Answer: if a friendly peck gets too passionate
+Difficulty: easy
+
+QuestionID: 2000-W06-4-2
+Question: How are students at Sisler expected to treat each other, according to vice-principal Mike Kachmar?
+Answer: with courtesy and respect
+Difficulty: easy
+
+QuestionID: 2000-W06-4-3
+Question: How did Kachmar describe school?
+Answer: as "a place of business"
+Difficulty: easy
+
+QuestionID: 2000-W06-4-4
+Question: Why did Kachmar say he announced the ban on kissing?
+Answer: he received complaints about a few students whose intense kissing was making others uncomfortable
+Difficulty: moderate
+
+QuestionID: 2000-W06-4-5
+Question: How far back in Western civilization are there references to kissing?
+Answer: back to the Old Testament
+Difficulty: moderate
+
+QuestionID: 2000-W06-4-6
+Question: Who said he has never witnessed a problem in Sisler's hallways?
+Answer: Jeffrey Besyk
+Difficulty: easy
+
+QuestionID: 2000-W06-4-7
+Question: Where was kissing rarely practiced until the 20th century?
+Answer: East Asia
+Difficulty: easy
+
+QuestionID: 2000-W06-4-8
+Question: When were medieval knights kissed?
+Answer: after being knighted
+Difficulty: easy
+
+QuestionID: 2000-W06-4-9
+Question: What is the "holy kiss" still a part of?
+Answer: Roman Catholic rituals
+Difficulty: moderate
+
