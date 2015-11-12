@@ -141,7 +141,7 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output", type=str, default="myresponse.txt",
                     help=" Output file where answers will be stored")
     args = vars(parser.parse_args())
-    input_dir=args['input']
+    input_file=args['input']
     out_filename=args['output']
 
     out = open(out_filename,"w")
@@ -152,8 +152,15 @@ if __name__ == "__main__":
     resolved_ner = load_resolved_ner()
     q_classifier = QuestionClassifier.get_classifier()
     arkref_temp_path = args['temp']
+    with open(input_file,"r") as inputListFile:
+        input_dir = inputListFile.readline().strip("\n")
+        storyFileList = []
+        for line in inputListFile:
+            storyFileList.append(line.strip("\n"))
 
-    for file in glob.glob(input_dir+"/*.story"):
+    for file in storyFileList:
+        file = input_dir +"/"+ file + ".story"
+    # for file in glob.glob(input_dir+"/*.story"):
         storyid,text = get_metadata(file)
         with open (arkref_temp_path,"w") as tempfile:
             tempfile.write(text)

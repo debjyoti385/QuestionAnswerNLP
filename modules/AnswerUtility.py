@@ -57,11 +57,11 @@ def filter(question,sentence,qtype):
     #         return " ".join(answer.keys())
 
 
-    if "LOC:".lower() in qtype.lower() and "LOC:other".lower() not in qtype.lower():
-        answer = ner_similarity.extract_entities(sentence)
-        location_entities = {k: v for k, v in answer.iteritems() if v == "LOCATION" or v=="GPE"}
-        if len(location_entities.keys())>0:
-            return " ".join(answer.keys())
+    # if "LOC:".lower() in qtype.lower() and "LOC:other".lower() not in qtype.lower():
+    #     answer = ner_similarity.extract_entities(sentence)
+    #     location_entities = {k: v for k, v in answer.iteritems() if v == "LOCATION" or v=="GPE"}
+    #     if len(location_entities.keys())>0:
+    #         return " ".join(answer.keys())
 
 
     return " ".join(words)

@@ -56,22 +56,25 @@ def similarityScore(sentence_1,sentence_2, qtype):
               r'^\$?(\d+)$',           # e.g., $500, $5, 500, 5
               r'^\$(\d+\.?)$',         # e.g., $5.
             ]))
+        once=False
         for w2 in words_2:
             w2 = w2.split("-",1)[0]
             w2 = re.sub('[ ]', '', w2)
-            val = money.search(w2)
-            val1 = nums.search(w2)
-            if val != None:
-                # print "NUM:money", val.group(0),
-                score += 0.25
-                flag=True
-                specialFlag=True
-                break
-            elif val1 != None:
-                score += 0.05
-                flag=True
-                specialFlag=True
-                break
+            if once==False:
+                once = True
+                val = money.search(sentence_2)
+                val1 = nums.search(sentence_2)
+                if val != None:
+                    # print "NUM:money", val.group(0),
+                    score += 0.25
+                    flag=True
+                    specialFlag=True
+                    break
+                elif val1 != None:
+                    score += 0.05
+                    flag=True
+                    specialFlag=True
+                    break
             if w2.lower() in currency:
                 score+=0.25
                 flag=True
