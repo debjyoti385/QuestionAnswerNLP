@@ -134,9 +134,9 @@ if __name__ == "__main__":
                                      epilog='',
                                      prog='')
     parser.add_argument("-i", "--input", required=True,
-                        help="Input Directory of stories")
-    parser.add_argument("-t", "--temp", default="/tmp/story.txt",
-                        help="temp file of stories")
+                        help="Input file containing list of story files")
+    parser.add_argument("-t", "--temp", default="story.txt",
+                        help="temp file to operate on story")
     parser.add_argument("-o", "--output", type=str, default="myresponse.txt",
                     help=" Output file where answers will be stored")
     args = vars(parser.parse_args())
