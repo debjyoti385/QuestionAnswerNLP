@@ -113,3 +113,6 @@ def bleu_score(ref_ngrams, ref_len, pred_ngrams, pred_len, n):
   recall = np.exp(recall)
 
   return precision, recall
+
+if __name__=="__main__":
+    print score("How many cases of measles were there in 1995 in Canada?","Last , year Canada had only cases of measles, down from about in.")

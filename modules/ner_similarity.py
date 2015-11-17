@@ -7,15 +7,19 @@ from nltk.corpus import wordnet as wn
 import re
 import math
 from nltk.stem import PorterStemmer
-
-
+ps = PorterStemmer()
 from nltk.corpus import stopwords
+
+
 stop_words= stopwords.words("english")
 irrelevant_loc_words=["north", "east", "west","south","top","bottom","up","down"]
 numbers = ["half","quarter","one","two","three","four","five","six","seven","eight","nine","ten","hundred","hundreds","thousand","thousands","million","millions","billion","billions"]
 currency = ["dollar","dollars","pound","pounds","gbp","cent","cents","dime","dimes","penny","rupee","dinar","cost","costs","price","shillings","shilling"]
-date_words=["monday","tuesday","wednesday","thursday","friday","saturday","sunday","yesterday","today","tomorrow","january","february","march","april","may","june","july","august","september","october","november","december", "year","years","month","months","decade","decades","century","week","fortnight","night"]
-reason_words=["because","since","meant","cause","reason"]
+date_words=["monday","tuesday","wednesday","thursday","friday","saturday","sunday","yesterday","today","tomorrow","january","february","march","april","may","june","july","august","september","october","november","december", "year","years","month","months","decade","decades","century","week","fortnight","night", "weekdays","weeknights"]
+reason_words=["because","meant","cause","reason"]
+
+POS_KEYS = ["VB","VBD","VBG","VBN","VBP","VBZ","JJ","NNS","NN"]
+
 
 def extract_entities(text):
     result=dict()
@@ -29,7 +33,47 @@ def extract_entities(text):
     # print result
     return result
 
+def extract_keywords(text):
+    tokens = [i.lower() for i in nltk.word_tokenize(text) if i not in stop_words ]
+    pos_tagged_tokens = nltk.pos_tag(tokens)
+    print(pos_tagged_tokens)
+    result=[]
+    for token in pos_tagged_tokens:
+        # print token
+        if token[1] in  POS_KEYS:
+            result.append(token[0])
 
+    return [ ps.stem(w) for w in result]
+
+
+
+
+def nonEmptyIntersection(A, B):
+    """
+    Returns true if set A intersects set B.
+    """
+    smaller, bigger = A, B
+    if len(B) < len(A):
+        smaller, bigger = bigger, smaller
+    for e in smaller:
+        if e in bigger:
+            # print e
+            return True
+    return False
+
+def nonEmptyIntersectionNumber(A, B):
+    """
+    Returns true if set A intersects set B.
+    """
+    count=0
+    smaller, bigger = A, B
+    if len(B) < len(A):
+        smaller, bigger = bigger, smaller
+    for e in smaller:
+        if e in bigger:
+            count+=1
+            # return True
+    return count
 
 def sigmoid(x):
   return 1 / (1 + math.exp(-0.5*x))
@@ -170,9 +214,11 @@ def similarityScore(sentence_1,sentence_2, qtype):
     w2_synsets=[]
     w2_hypersets=[]
 
-    for w2 in words_2:
+    for w2 in words_2 :
+        # if w2 not in eliminate_entities.keys():
         w2_synsets.extend(wn.synsets(w2))
-    for w1 in words_1:
+    for w1 in words_1 :
+        # if w1 not in eliminate_entities.keys():
         w1_synsets.extend(wn.synsets(w1))
 
     for ss in w1_synsets:
@@ -204,43 +250,59 @@ def similarityScore(sentence_1,sentence_2, qtype):
     #                 score += 0.08/((len(words_2)+1) * (len(words_1)+1))
     #             if specialFlag == True:
     #                     break
+    match = nonEmptyIntersection(w1_synsets,w2_synsets)
+    if match > 0:
+        score += (2.0)/((len(w1_synsets)+1) * (len(w2_synsets)+1))
+        flag=True
+    # for w1ss in w1_synsets:
+    #     for w2ss in w2_synsets:
+    #         if w1ss ==  w2ss:
+    #             # print w1ss, w2ss,
+    #             # print sentence_2
+    #             flag= True
+    #             score += 2.0/((len(w1_synsets)+1) * (len(w2_synsets)+1))
+    #             if specialFlag == True:
+    #                     break
+    #     # if specialFlag == True:
+    #     #                 break
 
-    for w1ss in w1_synsets:
-        for w2ss in w2_synsets:
-            if w1ss ==  w2ss:
-                # print w1ss, w2ss,
-                # print sentence_2
-                flag= True
-                score += 2.0/((len(w1_synsets)+1) * (len(w2_synsets)+1))
-                if specialFlag == True:
-                        break
-        # if specialFlag == True:
-        #                 break
-
-    for w1ss in w1_hypersets:
-        for w2ss in w2_hypersets:
-            if w1ss ==  w2ss:
-                # print w1ss, w2ss,
-                # print sentence_2
-                flag= True
-                score += 0.5/((len(w1_hypersets)+1) * (len(w2_hypersets)+1))
-                if specialFlag == True:
-                        break
-        if specialFlag == True:
-                        break
-
-
+    match = nonEmptyIntersection(w1_hypersets,w2_hypersets)
+    if match>0:
+        score += (0.5 * match) /((len(w1_hypersets)+1) * (len(w2_hypersets)+1))
+        flag=True
+    #
+    # for w1ss in w1_hypersets:
+    #     for w2ss in w2_hypersets:
+    #         if w1ss ==  w2ss:
+    #             # print w1ss, w2ss,
+    #             # print sentence_2
+    #             flag= True
+    #             score += 0.5/((len(w1_hypersets)+1) * (len(w2_hypersets)+1))
+    #             if specialFlag == True:
+    #                     break
+    #     if specialFlag == True:
+    #                     break
+    #
+    #
 ############ search for question related synsets in sentence ##################################
+    match =nonEmptyIntersectionNumber(extract_keywords(sentence_1),extract_keywords(sentence_2))
+    if match >0:
+        score += 0.05 * match
+        flag=True
+
     qtype_synsets= QuestionClassifier.liroth_to_wordnet(qtype)
     if qtype_synsets != None:
         qtype_synsets_names=set([ q.name().split(".")[0] for q in qtype_synsets ])
         # print qtype_synsets_names
-        for w2ss in w2_hypersets:
-            for q in qtype_synsets_names:
-                if w2ss == q:
-                    # print w2ss,q,
-                    flag=True
-                    score += 3.0/((len(qtype_synsets_names)+1) * (len(w2_hypersets)+1))
+        if nonEmptyIntersection(w2_hypersets,qtype_synsets_names):
+            score += 3.0/((len(qtype_synsets_names)+1) * (len(w2_hypersets)+1))
+            flag=True
+        # for w2ss in w2_hypersets:
+        #     for q in qtype_synsets_names:
+        #         if w2ss == q:
+        #             # print w2ss,q,
+        #             flag=True
+        #             score += 3.0/((len(qtype_synsets_names)+1) * (len(w2_hypersets)+1))
 
 
 
@@ -259,25 +321,13 @@ def similarityScore(sentence_1,sentence_2, qtype):
 
 
 if __name__=="__main__":
-    # print similarityScore("Where is South Queens Junior High School located?","South Queens Junior High School is taking aim at the fitness market.","LOC:other")
-    # print similarityScore("Where is South Queens Junior High School located?","A middle school in Liverpool, Nova Scotia is pumping up bodies as well as minds","LOC:other")
-    print similarityScore("Who is the principal of South Queens Junior High School?","South Queens Junior High School is, taking aim at the fitness market.","HUM:DESC")
-    print similarityScore("Who is the principal of South Queens Junior High School?","Principal Betty Jean Aucoin says the, club is a first for a Nova Scotia public school.","HUM:DESC")
-    # print similarityScore("Why did Babe stop playing basketball?","Babe Belanger married Ian MacLean, who continued the family sports tradition.","DESC:reason")
-    # print extract_entities(" South Queens Junior High School is taking aim at the fitness market")
-    # print extract_entities(" A middle school in Liverpool, Nova Scotia is pumping up bodies as well as minds")
-    # print similarityScore("who is Merry Hilbert's husband", "Merry Hilbert is a famous person","HUM:ind")
-    # print similarityScore("who is Merry Hilbert's husband", "her husband is a Jerry Burhaer","HUM:ind")
-    print similarityScore("When did Calgary, Alberta receive not a single snowflake?","When a sun tanned movie making team flew up to Calgary, Alberta, from Hollywood, California to film the movie \"Snow Day\", they thought the least they could expect from the Great White North was a little snow.","NUM:date")
-    print similarityScore("How many cases of measles were there in 1995 in Canada?","Last , year Canada had only cases of measles, down from about in.","NUM:count")
-
-    # print extract_entities("Wiarton Willie, the famous Canadian groundhog who predicted the arrival of spring")
-    # print similarityScore("Where did Willie live?","Wiarton Willie, the famous Canadian groundhog who predicted the arrival of spring","LOC:other")
-    # print similarityScore("Where did Willie live?","But Willie did make one more prediction.","LOC:other")
-    # print extract_entities("Wiarton Willie, the famous Canadian groundhog who predicted the arrival of spring")
-    # print getKeywords(nltk.word_tokenize("How tall was Babe?"))
-    # print similarityScore("What team did Babe play for?","None of the members of the team expected to do as well as they did.","HUM:gr")
-    # print similarityScore("What team did Babe play for?","She played for Edmonto Grads.","HUM:gr")
-    # print similarityScore("What team did Babe play for?","They were just a group of young women from the same school who liked to play basketball.","HUM:gr")
-    # print similarityScore("Why did Kachmar say he announced the ban on kissing?","Kachmar says he made the announcement after receiving complaints about a few students whose intense kissing was making others uncomfortable.","DESC:desc")
-    # print similarityScore("Why did Kachmar say he announced the ban on kissing?"," Kissing has a long history in Western civilization, with references dating back to the Old Testament.","DESC:desc")
+    # print similarityScore("Who is the principal of South Queens Junior High School?","South Queens Junior High School is, taking aim at the fitness market.","HUM:DESC")
+    # print similarityScore("Who is the principal of South Queens Junior High School?","Principal Betty Jean Aucoin says the, club is a first for a Nova Scotia public school.","HUM:DESC")
+    # print similarityScore("When did Calgary, Alberta receive not a single snowflake?","When a sun tanned movie making team flew up to Calgary, Alberta, from Hollywood, California to film the movie \"Snow Day\", they thought the least they could expect from the Great White North was a little snow.","NUM:date")
+    # print similarityScore("How many cases of measles were there in 1995 in Canada?","Last , year Canada had only cases of measles, down from about in.","NUM:count")
+    # print extract_keywords("When did Calgary, Alberta receive not a single snowflake")
+    # print extract_keywords("How are students at Sisler expected to treat each other, according to vice-principal Mike Kachmar?")
+    # print extract_keywords("He says students are expected to treat each other with courtesy and respect, and that doesn't include passionate embracing in the hall.")
+    # print extract_keywords("How many games did the Edmonton Grads win?")
+    # print extract_keywords(" Of the 522 games they played they won 502!")
+    print extract_keywords("Besides being very strong, what are the advantages of BioSteel?")

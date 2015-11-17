@@ -44,7 +44,7 @@ def similarityScore(sentence_1,sentence_2):
             if s1 == s2:
                 score += 1.0/((len(synonym_1)+1)*(len(synonym_2) + 1)* len(words_1))
 
-    return (1+score)
+    return (1+score*10)
 
 if __name__=="__main__":
     print similarityScore("It is a good day", "it is you my dear")

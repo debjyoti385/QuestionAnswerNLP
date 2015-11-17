@@ -13,6 +13,7 @@ from nltk.corpus import brown
 import math
 import numpy as np
 import sys
+import time
 
 alpha = 0.2
 beta = 0.45
@@ -133,7 +134,7 @@ def info_content(lookup_word):
     global N
     if N == 0:
         # poor man's lazy evaluation
-        # print "I SHOULD BE PRINTED ONLY ONCE"
+        print "I SHOULD BE PRINTED ONLY ONCE"
         for sent in brown.sents():
             for word in sent:
                 word = word.lower()
@@ -155,10 +156,12 @@ def semantic_vector(words, joint_words, info_content_norm):
     further normalized by the word's (and similar word's) information content
     if info_content_norm is True.
     """
+
     sent_set = set(words)
     semvec = np.zeros(len(joint_words))
     i = 0
     for joint_word in joint_words:
+        # start_time = time.time()
         if joint_word in sent_set:
             # if word in union exists in the sentence, s(i) = 1 (unnormalized)
             semvec[i] = 1.0
@@ -171,6 +174,7 @@ def semantic_vector(words, joint_words, info_content_norm):
             if info_content_norm:
                 semvec[i] = semvec[i] * info_content(joint_word) * info_content(sim_word)
         i = i + 1
+    # print "Each semantic vector creation " , time.time() -start_time
     return semvec
 
 def semantic_similarity(sentence_1, sentence_2, info_content_norm):
