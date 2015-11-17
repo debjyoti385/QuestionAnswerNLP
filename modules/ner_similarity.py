@@ -249,9 +249,9 @@ def similarityScore(sentence_1,sentence_2, qtype):
     #                 score += 0.08/((len(words_2)+1) * (len(words_1)+1))
     #             if specialFlag == True:
     #                     break
-    match = nonEmptyIntersection(w1_synsets,w2_synsets)
+    match = nonEmptyIntersectionNumber(w1_synsets,w2_synsets)
     if match > 0:
-        score += (2.0)/((len(w1_synsets)+1) * (len(w2_synsets)+1))
+        score += (2.0*match)/((len(w1_synsets)+1) * (len(w2_synsets)+1))
         flag=True
     # for w1ss in w1_synsets:
     #     for w2ss in w2_synsets:

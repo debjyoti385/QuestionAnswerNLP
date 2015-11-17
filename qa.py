@@ -147,8 +147,8 @@ if __name__ == "__main__":
     out.close()
 
 
-    resolved_articles=load_resolved_articles()
-    resolved_ner = load_resolved_ner()
+    # resolved_articles=load_resolved_articles()
+    # resolved_ner = load_resolved_ner()
     q_classifier = QuestionClassifier.get_classifier()
     arkref_temp_path = args['temp']
     with open(input_file,"r") as inputListFile:
@@ -161,21 +161,19 @@ if __name__ == "__main__":
         file = input_dir +"/"+ file + ".story"
     # for file in glob.glob(input_dir+"/*.story"):
         storyid,text = get_metadata(file)
-        with open (arkref_temp_path,"w") as tempfile:
-            tempfile.write(text)
-
-        article, ner = process_input(file)
+        article=text
+        # with open (arkref_temp_path,"w") as tempfile:
+        #     tempfile.write(text)
+        #
+        # article, ner = process_input(file)
         # print "length of article and ner ", len(article), len(ner)
         questions = get_questions(file.replace("story","questions"))
 
 
         for question in questions:
             q_type = q_classifier.classify(question[1])
-
-
-            q = nltk.tokenize.word_tokenize(question[1])
             relevant = SimilarityModule.getScoredSentences(question[1],article, q_type)
-            # relevant = sourceContentSelector.getScoredSentences(q, article)
+
             relevant.sort(key=lambda t:t[1],reverse=True)
             out = open(out_filename,"a")
             # print "##################################################################"

@@ -3,6 +3,7 @@
 import nltk
 import re
 import os, cPickle as pickle
+from nltk import NaiveBayesClassifier
 from pprint import pprint
 from scikit_classifier import scikit_classifier
 from collections import defaultdict
@@ -205,7 +206,7 @@ class QuestionClassifier:
     def train_classifier(self, train_set, C=1e5, fine_grain=True):
         # self.classifier = NaiveBayesClassifier.train(train_set)
         # self.classifier = nltk.classify.DecisionTreeClassifier.train(train_set)
-        # self.classifier = nltk.MaxentClassifier.train(train_set,algorithm="cg",sparse=True,max_iter=50,trace=3)
+        # self.classifier = nltk.MaxentClassifier.train(train_set,algorithm="gis",max_iter=50,trace=3)
         self.classifier = scikit_classifier.train(train_set,C=C)
 
     def classify(self, question):
@@ -215,12 +216,19 @@ def get_classifier():
     fine_grain = True
     classifier = QuestionClassifier(fine_grain)
     test_set = classifier.load_labelled_data('qcdata/TREC_10.label',fine_grain)
+    # test_set = classifier.load_labelled_data('qcdata/train_4000.label',fine_grain)
     train_set = classifier.load_labelled_data('qcdata/train_5500.label', fine_grain=fine_grain)
-    for C in [10**x for x in range(0,8)]:
+    accuracy =0
+    for C in [3**x for x in range(0,10)]:
         # for C in [0.1,0.01,0.001,0.0001,0.00001]:
         classifier.train_classifier(train_set, C=C, fine_grain=fine_grain)
-        #print C,":",nltk.classify.accuracy(classifier.classifier, test_set)
-    classifier.train_classifier(train_set, fine_grain=fine_grain)
+        tempAcc =nltk.classify.accuracy(classifier.classifier, test_set)
+        if tempAcc > accuracy:
+            accuracy=tempAcc
+            C_VAL = C
+        # print C,":", tempAcc
+    # print "Training with C ", C_VAL
+    classifier.train_classifier(train_set, C=C_VAL, fine_grain=fine_grain)
     return classifier
 
 
@@ -232,7 +240,7 @@ if __name__ == '__main__':
     for C in [10**x for x in range(0,8)]:
         # for C in [0.1,0.01,0.001,0.0001,0.00001]:
         classifier.train_classifier(train_set, C=C, fine_grain=fine_grain)
-        #print C,":",nltk.classify.accuracy(classifier.classifier, test_set)
+        print C,":",nltk.classify.accuracy(classifier.classifier, test_set)
     classifier.train_classifier(train_set, fine_grain=fine_grain)
     # print "DONEEEEEEEEEEEEEE -----------"
     print classifier.classify('How much money does the Sultan of Brunei have?')

@@ -30,6 +30,9 @@ class scikit_classifier(object):
         
     def prob_classify(self, featureset):
         raise NotImplementedException()
+
+    def classify_many(self, featuresets):
+        return [self.classify(fs) for fs in featuresets]
         
     @staticmethod
     def train(labeled_featuresets, C=1e5):
