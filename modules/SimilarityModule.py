@@ -16,7 +16,7 @@ def getScoredSentences(question, articles, qtype):
         score, specialFlag = ner_similarity.similarityScore(question,sentence, qtype)
         # print "1st score done ", score
         if score > 0 :
-            print score,
+            # print score,
             score *= synonym_similarity.similarityScore(question,sentence)
         # print "2nd score done ", score
         # print score,

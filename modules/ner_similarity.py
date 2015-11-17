@@ -36,7 +36,6 @@ def extract_entities(text):
 def extract_keywords(text):
     tokens = [i.lower() for i in nltk.word_tokenize(text) if i not in stop_words ]
     pos_tagged_tokens = nltk.pos_tag(tokens)
-    print(pos_tagged_tokens)
     result=[]
     for token in pos_tagged_tokens:
         # print token
