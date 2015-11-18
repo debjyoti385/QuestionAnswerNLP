@@ -51,18 +51,56 @@ def filter(question,sentence,qtype):
                     answer = answer + " " + w
             return answer
     #
-    # if "HUM:ind".lower() in qtype.lower() :
-    #     answer = ner_similarity.extract_entities(sentence)
-    #     if len(answer.keys())>0:
-    #         return " ".join(answer.keys())
+    if "HUM:ind".lower() in qtype.lower() :
+        answer = ner_similarity.extract_entities(sentence)
+        if len(answer.keys())>0:
+            return " ".join(answer.keys())
 
 
-    # if "LOC:".lower() in qtype.lower() and "LOC:other".lower() not in qtype.lower():
-    #     answer = ner_similarity.extract_entities(sentence)
-    #     location_entities = {k: v for k, v in answer.iteritems() if v == "LOCATION" or v=="GPE"}
-    #     if len(location_entities.keys())>0:
-    #         return " ".join(answer.keys())
+    if "LOC:".lower() in qtype.lower() and "LOC:other".lower() not in qtype.lower():
+        answer = ner_similarity.extract_entities(sentence)
+        location_entities = {k: v for k, v in answer.iteritems() if v == "LOCATION" or v=="GPE"}
+        if len(location_entities.keys())>0:
+            return " ".join(answer.keys())
 
+    if "loc:other" in qtype.lower():
+        location_prep = re.compile('|'.join([
+            r'in ',
+            r'outside ',
+            r'on ',
+            r'between ',
+            r'at ',
+            r'beside ',
+            r'by ',
+            r'beyond ',
+            r'near ',
+            r'in front of ',
+            r'nearby ',
+            r'in back of ',
+            r'above ',
+            r'behind ',
+            r'below ',
+            r'next to ',
+            r'over ',
+            r'on top of ',
+            r'under ',
+            r'within ',
+            r'up ',
+            r'beneath ',
+            r'down ',
+            r'underneath ',
+            r'around ',
+            r'among ',
+            r'through ',
+            r'along ',
+            r'inside ',
+            r'against '
+            ]))
+        positions = [i.start(0) for i in re.finditer(location_prep,sentence)]
+        answer=""
+        if len(positions) > 0:
+            answer= sentence[positions[0]:]
+            return answer
 
     return " ".join(words)
 

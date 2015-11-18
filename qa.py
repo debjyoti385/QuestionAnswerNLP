@@ -10,6 +10,7 @@ import sourceContentSelector
 import QuestionClassifier
 import SimilarityModule
 import AnswerUtility
+import bs4
 
 resolved_articles={}
 resolved_ner={}
@@ -109,7 +110,7 @@ def process_input(article_path):
     #             antecedent = soup.find(mentionid=antecedent_id)
     #             antecedent = str(antecedent).split(">", 1)[1].split("<", 1)[0]
     #             antecedent = re.sub("[-!,`']","",antecedent)
-    #             print antecedent
+    #             # print antecedent
     #             # print antecedent_id, antecedent
     #             # string = re.sub('<.*?>',' ',str(antecedent))
     #             # tok = nltk.word_tokenize(string)

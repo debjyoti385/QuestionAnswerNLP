@@ -18,7 +18,7 @@ currency = ["dollar","dollars","pound","pounds","gbp","cent","cents","dime","dim
 date_words=["monday","tuesday","wednesday","thursday","friday","saturday","sunday","yesterday","today","tomorrow","january","february","march","april","may","june","july","august","september","october","november","december", "year","years","month","months","decade","decades","century","week","fortnight","night", "weekdays","weeknights"]
 reason_words=["because","meant","cause","reason"]
 
-POS_KEYS = ["VB","VBD","VBG","VBN","VBP","VBZ","JJ","NNS","NN"]
+POS_KEYS = ["VB","VBD","VBG","VBN","VBP","VBZ","JJ","NNS","NN","CD"]
 
 
 def extract_entities(text):
