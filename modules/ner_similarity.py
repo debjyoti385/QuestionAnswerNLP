@@ -18,7 +18,7 @@ currency = ["dollar","dollars","pound","pounds","gbp","cent","cents","dime","dim
 date_words=["monday","tuesday","wednesday","thursday","friday","saturday","sunday","yesterday","today","tomorrow","january","february","march","april","may","june","july","august","september","october","november","december", "year","years","month","months","decade","decades","century","week","fortnight","night", "weekdays","weeknights"]
 reason_words=["because","meant","cause","reason"]
 
-POS_KEYS = ["VB","VBD","VBG","VBN","VBP","VBZ","JJ","NNS","NN","CD"]
+POS_KEYS = ["VB","VBD","VBG","VBN","VBP","VBZ","JJ","NNS","NN","CD","JJR","JJS"]
 
 
 def extract_entities(text):
@@ -114,7 +114,7 @@ def similarityScore(sentence_1,sentence_2, qtype):
                     specialFlag=True
                     break
                 elif val1 != None:
-                    score += 0.05
+                    score += 0.1
                     flag=True
                     specialFlag=True
                     break
@@ -198,7 +198,7 @@ def similarityScore(sentence_1,sentence_2, qtype):
     if "DESC:reason".lower() in qtype.lower():
         reasons = re.compile("to (see|do|visit)")
         if reasons.search(sentence_2) != None:
-                score +=0.08
+                score +=0.25
                 specialFlag=True
                 flag=True
         for w2 in words_2:
@@ -251,7 +251,7 @@ def similarityScore(sentence_1,sentence_2, qtype):
     #                     break
     match = nonEmptyIntersectionNumber(w1_synsets,w2_synsets)
     if match > 0:
-        score += (2.0*match)/((len(w1_synsets)+1) * (len(w2_synsets)+1))
+        score += (3.0*match)/((len(w1_synsets)+1) * (len(w2_synsets)+1))
         flag=True
     # for w1ss in w1_synsets:
     #     for w2ss in w2_synsets:
@@ -267,7 +267,7 @@ def similarityScore(sentence_1,sentence_2, qtype):
 
     match = nonEmptyIntersection(w1_hypersets,w2_hypersets)
     if match>0:
-        score += (0.5 * match) /((len(w1_hypersets)+1) * (len(w2_hypersets)+1))
+        score += (1.5 * match) /((len(w1_hypersets)+1) * (len(w2_hypersets)+1))
         flag=True
     #
     # for w1ss in w1_hypersets:
@@ -286,15 +286,15 @@ def similarityScore(sentence_1,sentence_2, qtype):
 ############ search for question related synsets in sentence ##################################
     match =nonEmptyIntersectionNumber(extract_keywords(sentence_1),extract_keywords(sentence_2))
     if match >0:
-        score += 0.05 * match
+        score += 0.08 * match
         flag=True
 
     qtype_synsets= QuestionClassifier.liroth_to_wordnet(qtype)
     if qtype_synsets != None:
         qtype_synsets_names=set([ q.name().split(".")[0] for q in qtype_synsets ])
         # print qtype_synsets_names
-        if nonEmptyIntersection(w2_hypersets,qtype_synsets_names):
-            score += 3.0/((len(qtype_synsets_names)+1) * (len(w2_hypersets)+1))
+        if nonEmptyIntersection(w2_hypersets.union(w2_synsets),qtype_synsets_names):
+            score += 4.0/((len(qtype_synsets_names)+1) * (len(w2_hypersets)+1))
             flag=True
         # for w2ss in w2_hypersets:
         #     for q in qtype_synsets_names:
@@ -308,10 +308,10 @@ def similarityScore(sentence_1,sentence_2, qtype):
 
     if flag == False:
         score-=0.2
-    if "what" in sentence_1:
-        score =score/2.0
-    if "what" in sentence_1.lower() and  ("known as" in sentence_2.lower() or "called as" in sentence_2.lower() or "named as" in sentence_2.lower()):
-        score =score *2.0 + 0.2
+    # if "what" in sentence_1:
+    #     score =score/2.0
+    # if "what" in sentence_1.lower() and  ("known as" in sentence_2.lower() or "called as" in sentence_2.lower() or "named as" in sentence_2.lower()):
+    #     score =score *2.0 + 0.2
     if specialFlag==True:
         score*=1.1
     # if score > 0:
