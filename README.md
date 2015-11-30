@@ -14,10 +14,10 @@ $ sh prepare.sh`
 - EXECUTION
     -  Help 
 		- /usr/local/stow/python/amd64_linux26/python-2.7.3/bin/python qa.py -h
-	- Execution 
-		- /usr/local/stow/python/amd64_linux26/python-2.7.3/bin/python qa.py -i input.txt -o response.txt 
+	- Execution WITHOUT Coreference Resolution 
+		- /usr/local/stow/python/amd64_linux26/python-2.7.3/bin/python qa.py -i input.txt -o response.txt -c 0
+    - Execution WITH Coreference Resolution
+		- /usr/local/stow/python/amd64_linux26/python-2.7.3/bin/python qa.py -i input.txt -o response.txt -c 1
 - INFORMATION
 	- It usually takes some 30 seconds to initialize Question classifier.
-	- In average each answer takes 10 seconds.
-	- Developset takes more than 1 hour to run.
-	
+    - In this project we are using bart server and that runs on port 8125.	

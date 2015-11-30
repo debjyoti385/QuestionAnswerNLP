@@ -11,6 +11,7 @@ import QuestionClassifier
 import SimilarityModule
 import AnswerUtility
 import bs4
+import coref
 
 resolved_articles={}
 resolved_ner={}
@@ -87,49 +88,6 @@ def load_resolved_ner():
         return {}
 
 
-def process_input(article_path):
-    # try:
-    #     if article_path in resolved_articles:
-    #         resolve1 = resolved_articles[article_path]
-    #         resolve2 = resolved_ner[article_path]
-    #         return resolve1,resolve2
-    #     fh = open("NUL", "w")
-    #     subprocess.call(["rm", arkref_temp_path.replace("txt","tagged")], stderr=fh)
-    #     subprocess.call(["rm", arkref_temp_path.replace("txt","sst")], stderr=fh)
-    #     subprocess.call(["rm", arkref_temp_path.replace("txt","parse")], stderr=fh)
-    #     subprocess.call(["rm", arkref_temp_path.replace("txt","osent")], stderr=fh)
-    #     subprocess.call(["arkref.sh", "-input", arkref_temp_path], stderr=fh)
-    #     fh.close()
-    #
-    #     tagged_article = open(arkref_temp_path.replace("txt", "tagged")).read()
-    #     tagged_article = "<root>" + tagged_article + "</root>"  # trick arkref into doing entire doc
-    #     soup = bs4.BeautifulSoup(tagged_article, "html.parser").root
-    #     for entity in soup.find_all(True):
-    #         if entity.string != None and entity.string.strip().lower() in pronouns:
-    #             antecedent_id = entity["entityid"].split("_")[0]
-    #             antecedent = soup.find(mentionid=antecedent_id)
-    #             antecedent = str(antecedent).split(">", 1)[1].split("<", 1)[0]
-    #             antecedent = re.sub("[-!,`']","",antecedent)
-    #             # print antecedent
-    #             # print antecedent_id, antecedent
-    #             # string = re.sub('<.*?>',' ',str(antecedent))
-    #             # tok = nltk.word_tokenize(string)
-    #             # ants = [(x,y) for x,y in nltk.pos_tag(tok) if y in {'NNP','NN'}]
-    #             entity.string.replace_with(antecedent)
-    #     # print soup
-    #     resolve1 = re.sub("<.*?>", "", str(soup))
-    #     resolve2 = get_sst(arkref_temp_path.replace("txt", "sst"))
-    #     resolved_articles[article_path] = resolve1
-    #     resolved_ner[article_path] = resolve2
-    #     return resolve1, resolve2
-    # except:
-        resolve1= open(arkref_temp_path).read()
-        resolve2 = get_sst(arkref_temp_path.replace("txt", "sst"))
-        return resolve1, resolve2
-
-
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='QUESTION ANSWER SYSTEM',
                                      epilog='',
@@ -140,16 +98,17 @@ if __name__ == "__main__":
                         help="temp file to operate on story")
     parser.add_argument("-o", "--output", type=str, default="myresponse.txt",
                     help=" Output file where answers will be stored")
+    parser.add_argument("-c", "--coref", type=int, default=0,
+                    help=" For Coref resolution use -c 1")
     args = vars(parser.parse_args())
     input_file=args['input']
     out_filename=args['output']
+    coref_flag= args['coref']
 
     out = open(out_filename,"w")
     out.close()
 
 
-    # resolved_articles=load_resolved_articles()
-    # resolved_ner = load_resolved_ner()
     q_classifier = QuestionClassifier.get_classifier()
     arkref_temp_path = args['temp']
     with open(input_file,"r") as inputListFile:
@@ -160,14 +119,16 @@ if __name__ == "__main__":
 
     for file in storyFileList:
         file = input_dir +"/"+ file + ".story"
-    # for file in glob.glob(input_dir+"/*.story"):
         storyid,text = get_metadata(file)
-        article=text
-        # with open (arkref_temp_path,"w") as tempfile:
-        #     tempfile.write(text)
-        #
-        # article, ner = process_input(file)
-        # print "length of article and ner ", len(article), len(ner)
+        with open (arkref_temp_path,"w") as tempfile:
+            tempfile.write(text)
+
+        if coref_flag != 0:
+            with open (arkref_temp_path,"w") as tempfile:
+                tempfile.write(text)
+            article = coref.resolve(arkref_temp_path)
+        else:
+            article = text
         questions = get_questions(file.replace("story","questions"))
 
 
@@ -188,9 +149,7 @@ if __name__ == "__main__":
             out.close()
             # print "##################################################################"
             print
-            # print "2: ", relevant[1]
 
-        # print sst_type
 
     with open("resolved_articles.p", "wb") as output_file:
         pickle.dump(resolved_articles,output_file)
