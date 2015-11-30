@@ -95,6 +95,7 @@ def similarityScore(sentence_1,sentence_2, qtype):
 ################## category specific detailing #####################################
     if "NUM:money".lower() in qtype.lower() or "NUM:cost".lower() in qtype.lower() or "cost" in sentence_1 or "money" in sentence_1:
         money = re.compile('|'.join([
+              r'^\$?\ ?(\d*\.\d{1,2})$',  # e.g., $.50, .50, $1.50, $.5, .5
               r'^\$?(\d*\.\d{1,2})$',  # e.g., $.50, .50, $1.50, $.5, .5
               r'^\$?(\d+)$',           # e.g., $500, $5, 500, 5
               r'^\$(\d+\.?)$',         # e.g., $5.

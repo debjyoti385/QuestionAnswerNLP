@@ -11,9 +11,11 @@ ls   | grep story | sed 's/.story//' >> ../input.txt
 cd ..
 echo "## input.txt READY "
 echo "###################################################################################################"
-echo "## INSTALL scikit-learn IN pwd"
+echo "## INSTALL scikit-learn, bs4, requests IN pwd"
 /usr/local/stow/python/amd64_linux26/python-2.7.3/bin/pip install -t . scikit-learn 
-echo "## scikit-learn INSTALLATION COMPLETE"
+/usr/local/stow/python/amd64_linux26/python-2.7.3/bin/pip install -t . beautifulsoup4 
+/usr/local/stow/python/amd64_linux26/python-2.7.3/bin/pip install -t . requests
+echo "## scikit-learn, bs4, requests INSTALLATION COMPLETE"
 echo "###################################################################################################"
 echo "## INSTALL BART - a Beautiful Anaphora Resolution Toolkit IN pwd"
 echo "FETCH BART snapshot from http://www.sfs.uni-tuebingen.de/~versley/BART/BART-snapshot.tgz "
