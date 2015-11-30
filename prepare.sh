@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "## FETCH QUESTION CLASSIFIER TRAINING DATA ##"
 cp -r /home/debjyotp/important/qcdata .
 echo "## FETCH COMPLETE ##"
