@@ -1,4 +1,5 @@
 ## QUESTION ANSWER NLP PROJECT
+#### Author/ Contributor: Debjyoti Paul, deb@cs.utah.edu, uNID: u0992708
 ###NOTE: In CADE machines use following python path: /usr/local/stow/python/amd64_linux26/python-2.7.3/bin/python
 `PLEASE RUN FIRST
 $ chmod +x prepare.sh
