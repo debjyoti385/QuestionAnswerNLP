@@ -22,13 +22,13 @@ wget http://www.sfs.uni-tuebingen.de/~versley/BART/BART-snapshot.tgz
 tar -xvf BART-snapshot.tgz
 echo "Extraction complete"
 cd BART/
-/bin/bash
+#/bin/bash
 source setup.sh
 echo "KILL any previously invoked process using 8125 port"
 kill -9 `lsof -i :8125 | tail -1 | awk '{print $2}'`
 echo "READY TO LAUNCH BART SERVER "
 java -Xmx1024m elkfed.webdemo.BARTServer & > /dev/null 2>&1
-exit
+#exit
 echo "## BART SERVER LAUNCHED "
 echo "###################################################################################################"
 echo "## ALL INSTALLATION COMPLETE "
