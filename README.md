@@ -1,6 +1,7 @@
 ## QUESTION ANSWER NLP PROJECT
 ###NOTE: In CADE machines use following python path: /usr/local/stow/python/amd64_linux26/python-2.7.3/bin/python
 `PLEASE RUN FIRST
+$ chmod +x prepare.sh
 $ ./prepare.sh`
 
 - PREPARE MODULE
