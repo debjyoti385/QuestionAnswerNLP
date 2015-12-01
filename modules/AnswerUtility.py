@@ -9,7 +9,7 @@ stop_words= [u'i', u'me', u'my', u'myself', u'we', u'our', u'ours', u'ourselves'
 
 numbers = ["half","quarter","one","two","three","four","five","six","seven","eight","nine","ten","hundred","hundreds","thousand","thousands","million","millions","billion","billions"]
 currency = ["dollar","dollars","pound","pounds","gbp","cent","cents","dime","dimes","penny","rupee","dinar","cost","costs","price","shillings","shilling"]
-date_words=["monday","tuesday","wednesday","thursday","friday","saturday","sunday","yesterday","today","tomorrow","january","february","march","april","may","june","july","august","september","october","november","december", "year","years","month","months","decade","decades","century","week","fortnight"]
+date_words=["monday","tuesday","wednesday","thursday","friday","saturday","sunday","yesterday","today","tomorrow","january","february","march","april","may","june","july","august","september","october","november","december", "year","years","month","months","decade","decades","century","week","fortnight","night", "weekdays","weeknights","a.m","p.m","a.m.","p.m."]
 reason_words=["because","since","meant","cause","reason"]
 
 
@@ -17,16 +17,17 @@ def filter(question,sentence,qtype):
     # sentence = re.sub("['!,\"\'`]"," ",sentence)
     words_1 = [i.lower() for i in nltk.word_tokenize(question)]
     sentence = " ".join([i for i in nltk.word_tokenize(sentence) if i.lower() not in words_1 ])
-
+    sentence = re.sub("\$\ +","$",sentence)
 
     if "DESC".lower() in qtype.lower():
         return sentence
-    sentence = re.sub('[%s]' % '\\!\\"\\#\\$\\%\\&\\\'\\(\\)\\*\\+\\-\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\\\\\]\\^\\_\\`\\{\\|\\}\\~', ' ', sentence)
+    sentence = re.sub('[%s]' % '\\!\\"\\#\\&\\\'\\(\\)\\*\\+\\/\\;\\<\\=\\>\\?\\@\\[\\\\\\]\\^\\_\\`\\{\\|\\}\\~', ' ', sentence)
     # print(sentence)
     words =  [ w for w in nltk.word_tokenize(sentence) if w.lower() not in stop_words]
-    nums = re.compile(r"[+-]?\d+(?:[\,\.]\d+)?(?:[eE][+-]?\d+)?")
+    nums = re.compile(r"[\$]*[+-]?\d+(?:[\,\.]\d+)?(?:[eE][+-]?\d+)?")
     if "NUM:money".lower() in qtype.lower() or "NUM:cost".lower() in qtype.lower():
         money = re.compile('|'.join([
+              r'^\$?\ ?(\d*\.\d{1,2})$',  # e.g., $.50, .50, $1.50, $.5, .5
               r'^\$?(\d*\.\d{1,2})$',  # e.g., $.50, .50, $1.50, $.5, .5
               r'^\$?(\d+)$',           # e.g., $500, $5, 500, 5
               r'^\$(\d+\.?)$',         # e.g., $5.
@@ -38,6 +39,7 @@ def filter(question,sentence,qtype):
             for w in words:
                 if (w in currency or w in numbers) and w not in answer:
                     answer = answer + " " + w
+            answer=re.sub("\$\ +","$",answer)
             return answer
 
 
@@ -102,11 +104,14 @@ def filter(question,sentence,qtype):
     #         answer= sentence[positions[0]:]
     #         return answer + " ".join(ner_similarity.extract_entities(sentence))
 
-    return " ".join(words)
+    answer = " ".join(words)
+    answer=re.sub("\$\ +","$",answer)
+    return answer
 
 
 
 
 if __name__=="__main__":
-    print filter('`"This has nothing to do with legalizing marijuana," he said.''', "HUM:ind")
-    print filter("It is a Good day 12,000 dollar square", "NUM:money")
+    # print filter('`"This has nothing to do with legalizing marijuana," he said.''', "HUM:ind")
+    # print filter("It is a Good day 12,000 dollar square", "NUM:money")
+    print filter(" If you were a student, how much would a club membership cost you?","Memberships cost 1.80 a year for adults and $135 for students and seniors.","NUM:count")
