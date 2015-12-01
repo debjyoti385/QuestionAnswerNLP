@@ -23,7 +23,7 @@ BART_SERVER = 'http://localhost:8125'
 
 
 def strip_tags(html, invalid_tags):
-    soup = BeautifulSoup(html,"lxml")
+    soup = BeautifulSoup(html,"html.parser")
     coref_id_set=set()
     set2text={}
     for tag in soup.findAll(True):

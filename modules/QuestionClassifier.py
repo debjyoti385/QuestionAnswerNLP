@@ -219,7 +219,7 @@ def get_classifier():
     # test_set = classifier.load_labelled_data('qcdata/train_4000.label',fine_grain)
     train_set = classifier.load_labelled_data('qcdata/train_5500.label', fine_grain=fine_grain)
     accuracy =0
-    for C in [3**x for x in range(0,10)]:
+    for C in [5*x for x in range(19,30)]:
         # for C in [0.1,0.01,0.001,0.0001,0.00001]:
         classifier.train_classifier(train_set, C=C, fine_grain=fine_grain)
         tempAcc =nltk.classify.accuracy(classifier.classifier, test_set)
@@ -237,7 +237,7 @@ if __name__ == '__main__':
     classifier = QuestionClassifier(fine_grain)
     test_set = classifier.load_labelled_data('qcdata/TREC_10.label',fine_grain)
     train_set = classifier.load_labelled_data('qcdata/train_5500.label', fine_grain=fine_grain)
-    for C in [10**x for x in range(0,8)]:
+    for C in [5*x for x in range(16,30)]:
         # for C in [0.1,0.01,0.001,0.0001,0.00001]:
         classifier.train_classifier(train_set, C=C, fine_grain=fine_grain)
         print C,":",nltk.classify.accuracy(classifier.classifier, test_set)
