@@ -15,7 +15,7 @@ stop_words= stopwords.words("english")
 irrelevant_loc_words=["north", "east", "west","south","top","bottom","up","down"]
 numbers = ["half","quarter","one","two","three","four","five","six","seven","eight","nine","ten","hundred","hundreds","thousand","thousands","million","millions","billion","billions"]
 currency = ["dollar","dollars","pound","pounds","gbp","cent","cents","dime","dimes","penny","rupee","dinar","cost","costs","price","shillings","shilling"]
-date_words=["monday","tuesday","wednesday","thursday","friday","saturday","sunday","yesterday","today","tomorrow","january","february","march","april","may","june","july","august","september","october","november","december", "year","years","month","months","decade","decades","century","week","fortnight","night", "weekdays","weeknights"]
+date_words=["monday","tuesday","wednesday","thursday","friday","saturday","sunday","yesterday","today","tomorrow","january","february","march","april","may","june","july","august","september","october","november","december", "year","years","month","months","decade","decades","century","week","fortnight","night", "weekdays","weeknights","a.m","p.m","a.m.","p.m."]
 reason_words=["because","meant","cause","reason"]
 
 POS_KEYS = ["VB","VBD","VBG","VBN","VBP","VBZ","JJ","NNS","NN","CD","JJR","JJS"]
@@ -153,19 +153,28 @@ def similarityScore(sentence_1,sentence_2, qtype):
             if w2 in date_words:
                 score=+0.25
                 flag = True
+                specialFlag = True
                 break
             elif w2.isdigit():
                 try:
                     if int(w2) > 1600 and int(w2) < 2100:
                         score += 0.25
+                        specialFlag = True
                 except:
                     pass
 
+    eliminate_flag=False
+    eliminate_location = dict()
+    if  "LOC".lower() in qtype.lower()  :
+        eliminate_location = extract_entities(sentence_1)
+        eliminate_location = {k: v for k, v in eliminate_location.iteritems() if v == "GPE" or v =="LOCATION"}
+
     if "LOC".lower() in qtype.lower():
         entities= extract_entities(sentence_2)
+        eliminate_flag = True
         for w2 in words_2:
             if w2.lower() in entities.keys():
-                if entities[w2.lower()]=="LOCATION" or entities[w2.lower()]=="GPE":
+                if (entities[w2.lower()]=="LOCATION" or entities[w2.lower()]=="GPE") and w2.lower() not in eliminate_location:
                     flag=True
                     if "LOC:other".lower() in qtype.lower():
                         score+=0.1
@@ -178,7 +187,7 @@ def similarityScore(sentence_1,sentence_2, qtype):
 # to do
 ####################
     eliminate_entities = dict()
-    if "'s" in sentence_1.lower() :
+    if "'s" in sentence_1.lower()  or (sentence_1.lower().strip(" ").startswith("who") and ("HUM:ind".lower() in qtype.lower() or "HUM:desc".lower() in qtype.lower())):
         eliminate_entities = extract_entities(sentence_1)
         eliminate_entities = {k: v for k, v in eliminate_entities.iteritems() if v == "PERSON"}
 
@@ -186,6 +195,7 @@ def similarityScore(sentence_1,sentence_2, qtype):
 
     if sentence_1.lower().strip(" ").startswith("who") and ("HUM:ind".lower() in qtype.lower() or "HUM:desc".lower() in qtype.lower()):
         entities= extract_entities(sentence_2)
+        eliminate_flag = True
         for w2 in words_2:
             if w2.lower() in entities.keys():
                 if entities[w2.lower()]=="PERSON" and w2.lower() not in eliminate_entities.keys():
@@ -331,3 +341,6 @@ if __name__=="__main__":
     # print extract_keywords("How many games did the Edmonton Grads win?")
     # print extract_keywords(" Of the 522 games they played they won 502!")
     print extract_keywords("Besides being very strong, what are the advantages of BioSteel?")
+    print similarityScore(" When did the boys realize they were lost?","The two kept heading downhill, but when they reached a riverbank around 4 p.m. , they realized they were lost and decided to head back uphill to try to regain their way.","NUM:date")
+    print similarityScore("What other mountain would Watson like to climb after Mt. Logan?","Blind mountaineer to climb Mount Logan.","LOC:country")
+    print similarityScore("What other mountain would Watson like to climb after Mt. Logan?","He plans to reach even bigger heights, like the world's tallest  mountain   Mount Everest.","LOC:country")
