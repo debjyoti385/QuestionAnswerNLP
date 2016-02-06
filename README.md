@@ -1,5 +1,7 @@
 ## QUESTION ANSWER NLP PROJECT
 #### Author/ Contributor: Debjyoti Paul, deb@cs.utah.edu, uNID: u0992708
+![Poster of Question Answer Project](https://github.com/debjyoti385/QuestionAnswerNLP/blob/master/poster/qa_poster.png) 
+
 ###NOTE: In CADE machines use following python path: /usr/local/stow/python/amd64_linux26/python-2.7.3/bin/python
 `PLEASE RUN FIRST
 $ chmod +x prepare.sh
@@ -33,4 +35,3 @@ $ ./prepare.sh
     - TESTED on lab1-13.eng.utah.edu 
     - In OSX/ Macbook developset execution completes in 12-15 minutes.
 
-![Poster of Question Answer Project](https://github.com/debjyoti385/QuestionAnswerNLP/blob/master/poster/qa_poster.png) 
