@@ -31,5 +31,6 @@ $ ./prepare.sh
 	- It usually takes some 30 seconds to initialize Question classifier.
     - This script also installs BART anaphora resolution kit and runs a web server with port 8125
     - TESTED on lab1-13.eng.utah.edu 
-    - In OSX/ Macbook developset execution completes in 12-15 minutes while in CADE machine it takes more than an hour. 
-      This is very weird and I presume it may be due to NFS disk access for NLTK_data.
+    - In OSX/ Macbook developset execution completes in 12-15 minutes.
+
+![Poster of Question Answer Project](/project/qa_poster.png) 
