@@ -33,4 +33,4 @@ $ ./prepare.sh
     - TESTED on lab1-13.eng.utah.edu 
     - In OSX/ Macbook developset execution completes in 12-15 minutes.
 
-![Poster of Question Answer Project](/project/qa_poster.png) 
+![Poster of Question Answer Project](https://github.com/debjyoti385/QuestionAnswerNLP/blob/master/poster/qa_poster.png) 
